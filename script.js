@@ -4,21 +4,36 @@ let newNumber = false;
 
 function buttonValue(value) {
 
-  expression += value; 
+  if (value === "%") {
+    
+    let match = expression.match(/(\d+\.?\d*)$/);
+
+    if (match) {
+      let number = match[0];
+      let percentValue = parseFloat(number) / 100;
+
+      expression = expression.slice(0, -number.length) + percentValue;
+      display.value = percentValue;
+    }
+
+    return;
+  }
+
+  expression += value;
 
   if (!isNaN(value) || value === ".") {
-
     if (newNumber) {
       display.value = value;
       newNumber = false;
     } else {
       display.value += value;
     }
-
   } else {
     newNumber = true;
   }
 }
+
+
 
 function clearDisplay() {
   display.value = '';
